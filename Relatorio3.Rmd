@@ -7,7 +7,7 @@ author:
   - "Edgar Sampaio de Barros 16/0005213"
   - "George Geonardo de Pontes da Silva 12/0012197"
   - "Vinícius Costa e Silva 15/0052138"
-date: "30/06/2019"
+date: "04/07/2019"
 output: 
   pdf_document:
     toc: yes
@@ -357,7 +357,7 @@ De posse dos dados e com um entendimento melhor da maneira que são estruturados
 
 #### Números de orientações completas por ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 6:9){
   print(names(cic_advise[i]))
   print(cic_advise[[i]] %>% 
@@ -370,7 +370,7 @@ A partir de algumas análises preliminares na base de dados, é possível perceb
 
 #### Disposição de orientações por situação e ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(cic_advise)){
   print(names(cic_advise[i]))
   print(cic_advise[[i]] %>% 
@@ -379,9 +379,11 @@ for (i in 1:length(cic_advise)){
 }
 ```
 
+
+\pagebreak
 #### Natureza das orientações
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 cic_public.periodico.df <- pub.ls2df(cic_publication, 1) #artigos
 cic_public.livros.df <- pub.ls2df(cic_publication, 2) #livros
 cic_public.textojornais.df <- pub.ls2df(cic_publication, 4) #textos em jornais
@@ -389,7 +391,7 @@ cic_public.eventos.df <- pub.ls2df(cic_publication, 5) #eventos
 ```
 
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 cic_orient.posdoutorado.df <- ori.ls2df(cic_advise, 6) #pos-Doutorado concluído
 cic_orient.doutorado.df <- ori.ls2df(cic_advise, 7) #Doutorado concluído
 cic_orient.mestrado.df <- ori.ls2df(cic_advise, 8) #Mestrado concluído
@@ -397,7 +399,7 @@ cic_orient.mestrado.df <- ori.ls2df(cic_advise, 8) #Mestrado concluído
 cic_orient.df <- rbind(rbind(cic_orient.posdoutorado.df, cic_orient.doutorado.df), cic_orient.mestrado.df)
 ```
 
-```{r}
+```{r echo=FALSE}
 ggplot(cic_orient.df,aes(ano, fill=factor(natureza))) +
   geom_bar(stat = "count",position='dodge') +
   ggtitle("Natureza das Orientações") +
@@ -416,11 +418,12 @@ ggplot(cic_orient.df,aes(ano, fill=factor(natureza))) +
 O gráfico acima permite perceber que a quantidade de dissertações de mestrado é sempre maior ano a ano. A quantidade de supervisões de pós-doutorado é bem menor e não há resultados registrados para os anos de 2017 e 2018.
 
 
+\pagebreak
 ### Perfil
 
 #### Distribuição de áreas de atuação dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 areas_atuacao_cic <- cic_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$area)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -442,9 +445,10 @@ ggplot(areas_atuacao_cic, aes(x="", y=Quantidade, fill=Areas))+
 Percebe-se que a área de atuação com maior recorrência é a *Ciência da Computação* o que faz todo sentido já que se trata do programa de Ciência da Computação.
 Percebe-se também uma grande porcentagem em relação a área *Matemática* o que pode indicar que no programa de Matemática existem grandes chances de a área de Ciência da Computação ter uma porcentagem expressiva também.
 
+\pagebreak
 #### Distribuição de subáreas de atuação mais frequentes dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 subarea <- cic_profile %>% 
   sapply(function(x) (x$areas_de_atuacao$sub_area)) %>% 
   unlist() %>% table() %>% 
@@ -469,8 +473,9 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
 
 A partir desses dados, é fácil perceber que a sub-área de *Metodologia e Técnicas de Computação* é que possui a maior frequência de atuação, seguida por *Teoria da Computação* e *Sistemas de Computação*.
 
+\pagebreak
 #### Distribuição de especialidades mais frequentes dos pesquisadores
-```{r}
+```{r echo=FALSE}
 especialidades_frequentes <- cic_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -494,7 +499,7 @@ Aqui vê-se as 10 especialidades mais recorrentes e percebe-se uma boa distribui
 ### Publicações
 
 #### Quantidade de Publicações por tipo
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(cic_publication)){
   print(names(cic_publication[i]))
   print(cic_publication[[i]] %>% 
@@ -506,7 +511,7 @@ for (i in 1:length(cic_publication)){
 Percebe-se que o tipo mais recorrente de publicações é do tipo Evento, possui bem mais ocorrências do que o segundo colocado, Periódico.
 
 #### Quantidade de publicações por tipo e por ano 
-```{r}
+```{r echo=FALSE}
 publication_tipo_cic <- cic_publication %>% 
   sapply(function(x) 
     sapply(x, function(x)
@@ -518,7 +523,7 @@ Destaca-se que nos anos de 2016 e 2017 houveram mais publicações de Periódico
 
 #### Participação em eventos por país
 
-```{r}
+```{r echo=FALSE}
 cic_publication$EVENTO %>% 
   sapply(function(x)
     (x$pais_do_evento)) %>% 
@@ -530,9 +535,9 @@ Dentro da Pós-Graduação de Ciência da Computação, a presença em eventos �
 
 É interessante observar que este programa possui uma grande participação em eventos em outros países e em vários continentes. 
 
-
+\pagebreak
 #### Publicações por ano
-```{r}
+```{r echo=FALSE}
 cic_public.periodico.df %>% 
   ggplot(aes(x = ano)) + geom_bar(aes(fill=ano)) + 
   geom_text(stat = "count", aes(label=formatC(..count.., big.mark=",")),vjust=-0.1) + 
@@ -540,8 +545,9 @@ cic_public.periodico.df %>%
   scale_y_continuous(labels = comma)
 ```
 
+\pagebreak
 #### Publicações de livros fora do Brasil
-```{r}
+```{r echo=FALSE}
 cic_public.livros.df %>%
   group_by(pais_de_publicacao) %>%
   summarise(Quantidade = n()) %>%
@@ -557,9 +563,10 @@ cic_public.livros.df %>%
 
 ```
 
+\pagebreak
 #### Eventos por País
 
-```{r}
+```{r echo=FALSE}
 cic_public.eventos.df %>%
   group_by(pais_do_evento) %>%
   summarise(Quantidade = n()) %>%
@@ -574,8 +581,8 @@ cic_public.eventos.df %>%
 ```
 Algumas análises básicas também permitem perceber que os Estados Unidos são o país em que os docentes da Pós-Graduação em Ciência da Computação mais participam de eventos, seguido (em quantidade bem menore), pela Itália e Espanha. Nesse gráfico foram mostrados apenas os eventos acontecidos fora do país.
 
+\pagebreak
 #### Publicações de livros por ano agrupados por país
-
 ```{r echo=FALSE, out.width='100%'}
 knitr::include_graphics('./images/cic_publications_ano.png')
 ```
@@ -588,7 +595,7 @@ O maior número de publicações de livros acontece, obviamente, no Brasil. Mas 
 
 #### Números de orientações completas por ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 6:9){
   print(names(comp_advise[i]))
   print(comp_advise[[i]] %>% 
@@ -603,7 +610,7 @@ Percebe-se que existem bem mais orientações concluídas do tipo Outras Orienta
 
 #### Disposição de orientações por situação e ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(comp_advise)){
   print(names(comp_advise[i]))
   print(comp_advise[[i]] %>% 
@@ -612,9 +619,10 @@ for (i in 1:length(comp_advise)){
 }
 ```
 
+\pagebreak
 #### Natureza das orientações
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 comp_public.periodico.df <- pub.ls2df(comp_publication, 1) #artigos
 comp_public.livros.df <- pub.ls2df(comp_publication, 2) #livros
 comp_public.textojornais.df <- pub.ls2df(comp_publication, 4) #textos em jornais
@@ -622,7 +630,7 @@ comp_public.eventos.df <- pub.ls2df(comp_publication, 5) #eventos
 ```
 
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 comp_orient.posdoutorado.df <- ori.ls2df(comp_advise, 6) #pos-Doutorado concluído
 comp_orient.doutorado.df <- ori.ls2df(comp_advise, 7) #Doutorado concluído
 comp_orient.mestrado.df <- ori.ls2df(comp_advise, 8) #Mestrado concluído
@@ -630,7 +638,7 @@ comp_orient.mestrado.df <- ori.ls2df(comp_advise, 8) #Mestrado concluído
 comp_orient.df <- rbind(rbind(comp_orient.posdoutorado.df, comp_orient.doutorado.df), comp_orient.mestrado.df)
 ```
 
-```{r}
+```{r echo=FALSE}
 ggplot(comp_orient.df,aes(ano, fill=factor(natureza))) +
   geom_bar(stat = "count",position='dodge') +
   ggtitle("Natureza das Orientações") +
@@ -648,12 +656,12 @@ ggplot(comp_orient.df,aes(ano, fill=factor(natureza))) +
             check_overlap = TRUE)
 ```
 
-
+\pagebreak
 ### Perfil
 
 #### Distribuição de áreas de atuação dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 areas_atuacao_comp <- comp_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$area)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -675,9 +683,10 @@ ggplot(areas_atuacao_comp, aes(x="", y=Quantidade, fill=Areas))+
 Percebe-se que a área de atuação com maior recorrência é a *Ciência da Computação* o que faz todo sentido já que se trata de um programa de Computação.
 Percebe-se também uma grande porcentagem em relação às demais áreas existe uma distribuição bem uniforme, demonstrando que o ponto forte desse programa de fato são assuntos relacionados à Computação e Ciência da Computação.
 
+\pagebreak
 #### Distribuição de subáreas de atuação mais frequentes dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 subarea <- comp_profile %>% 
   sapply(function(x) (x$areas_de_atuacao$sub_area)) %>% 
   unlist() %>% table() %>% 
@@ -702,8 +711,9 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
 
 Através da análise acima, pode-se ver que a área com maior número de docentes atuantes é em *Sistemas de Computação*, seguida de perto por *Metodologia e Técnicas de Computação* e *Teoria da Computação*.
 
+\pagebreak
 #### Distribuição de especialidades mais frequentes dos pesquisadores
-```{r}
+```{r echo=FALSE}
 especialidades_frequentes <- comp_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -727,7 +737,7 @@ Aqui vê-se as 10 especialidades mais recorrentes e percebe-se uma boa distribui
 ### Publicações
 
 #### Quantidade de Publicações por tipo
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(comp_publication)){
   print(names(comp_publication[i]))
   print(comp_publication[[i]] %>% 
@@ -739,7 +749,7 @@ for (i in 1:length(comp_publication)){
 Percebe-se que o tipo mais recorrente de publicações é do tipo Evento, possui bem mais ocorrências do que o segundo colocado, Periódico.
 
 #### Quantidade de publicações por tipo e por ano 
-```{r}
+```{r echo=FALSE}
 publication_tipo_comp <- comp_publication %>% 
   sapply(function(x) 
     sapply(x, function(x)
@@ -751,7 +761,7 @@ Destaca-se que nos ano de 2016 houveram mais publicações de Periódicos e Even
 
 #### Participação em eventos por país
 
-```{r}
+```{r echo=FALSE}
 comp_publication$EVENTO %>% 
   sapply(function(x)
     (x$pais_do_evento)) %>% 
@@ -761,6 +771,7 @@ comp_publication$EVENTO %>%
 
 Este programa possui um bom número de participações em eventos em outros países. 
 
+\pagebreak
 #### Eventos por país
 
 ```{r echo=FALSE, out.width='100%'}
@@ -784,7 +795,7 @@ comp_public.eventos.df %>%
 
 #### Números de orientações completas por ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 6:9){
   print(names(mat_advise[i]))
   print(mat_advise[[i]] %>% 
@@ -797,7 +808,7 @@ No geral percebe-se que existem mais orientações concluídas do tipo Mestrado 
 
 #### Disposição de orientações por situação e ano
 
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(mat_advise)){
   print(names(mat_advise[i]))
   print(mat_advise[[i]] %>% 
@@ -806,9 +817,10 @@ for (i in 1:length(mat_advise)){
 }
 ```
 
+\pagebreak
 #### Natureza das orientações
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 mat_public.periodico.df <- pub.ls2df(mat_publication, 1) #artigos
 mat_public.livros.df <- pub.ls2df(mat_publication, 2) #livros
 mat_public.textojornais.df <- pub.ls2df(mat_publication, 4) #textos em jornais
@@ -816,7 +828,7 @@ mat_public.eventos.df <- pub.ls2df(mat_publication, 5) #eventos
 ```
 
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 mat_orient.posdoutorado.df <- ori.ls2df(mat_advise, 6) #pos-Doutorado concluído
 mat_orient.doutorado.df <- ori.ls2df(mat_advise, 7) #Doutorado concluído
 mat_orient.mestrado.df <- ori.ls2df(mat_advise, 8) #Mestrado concluído
@@ -824,7 +836,7 @@ mat_orient.mestrado.df <- ori.ls2df(mat_advise, 8) #Mestrado concluído
 mat_orient.df <- rbind(rbind(mat_orient.posdoutorado.df, mat_orient.doutorado.df), mat_orient.mestrado.df)
 ```
 
-```{r}
+```{r echo=FALSE}
 ggplot(mat_orient.df,aes(ano, fill=factor(natureza))) +
   geom_bar(stat = "count",position='dodge') +
   ggtitle("Natureza das Orientações") +
@@ -841,12 +853,12 @@ ggplot(mat_orient.df,aes(ano, fill=factor(natureza))) +
             check_overlap = TRUE)
 ```
 
-
+\pagebreak
 ### Perfil
 
 #### Distribuição de áreas de atuação dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 areas_atuacao_mat <- mat_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$area)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -867,9 +879,10 @@ ggplot(areas_atuacao_mat, aes(x="", y=Quantidade, fill=Areas))+
 
 Percebe-se que a área de atuação com maior recorrência é a *Ciência da Computação* e apenas uma parcela reduzida equivale a área *Matemática*, o que se analisado isoladamente pode causar estranheza, pois seria de se esperar que no programa de Matemática a área *Matemática* tivesse uma maior porcentagem.
 
+\pagebreak
 #### Distribuição de subáreas de atuação mais frequentes dos pesquisadores
 
-```{r}
+```{r echo=FALSE}
 subarea <- mat_profile %>% 
   sapply(function(x) (x$areas_de_atuacao$sub_area)) %>% 
   unlist() %>% table() %>% 
@@ -894,8 +907,9 @@ ggplot(subarea, aes(x="", y=Quantidade, fill=Subarea))+
 
 Através da análise acima, pode-se ver que a área com maior número de docentes atuantes é em *Geometria e Topologia*, seguida por *Análise*, *Matemática Aplicada* e *Teoria da Computação*.
 
+\pagebreak
 #### Distribuição de especialidades mais frequentes dos pesquisadores
-```{r}
+```{r echo=FALSE}
 especialidades_frequentes <- comp_profile %>% 
   sapply(function(x) unique(x$areas_de_atuacao$especialidade)) %>% 
   unlist() %>% table() %>% sort(decreasing = TRUE) %>% 
@@ -915,10 +929,11 @@ ggplot(especialidades_frequentes, aes(x="", y=Quantidade, fill=Especialidade))+
 
 ```
 Aqui vê-se as 10 especialidades mais recorrentes e percebe-se uma boa distribuição da quantidade entre elas.
+
 ### Publicações
 
 #### Quantidade de Publicações por tipo
-```{r}
+```{r echo=FALSE}
 for (i in 1:length(mat_publication)){
   print(names(mat_publication[i]))
   print(mat_publication[[i]] %>% 
@@ -929,7 +944,7 @@ for (i in 1:length(mat_publication)){
 Percebe-se que o tipo mais recorrente de publicações é do tipo Periódico.
 
 #### Quantidade de publicações por tipo e por ano 
-```{r}
+```{r echo=FALSE}
 publication_tipo_mat <- mat_publication %>% 
   sapply(function(x) 
     sapply(x, function(x)
@@ -941,7 +956,7 @@ Destaca-se que nos anos de 2016 e 2017 houveram mais publicações de Periódico
 
 #### Participação em eventos por país
 
-```{r}
+```{r echo=FALSE}
 mat_publication$EVENTO %>% 
   sapply(function(x)
     (x$pais_do_evento)) %>% 
@@ -951,6 +966,7 @@ mat_publication$EVENTO %>%
 
 É interessante que o país tenha participado de mais eventos na França do que Chile que é um país mais próximo do Brasil. 
 
+\pagebreak
 #### Publicações por ano
 
 ```{r echo=FALSE, out.width='100%'}
@@ -961,8 +977,9 @@ mat_public.periodico.df %>%
   scale_y_continuous(labels = comma)
 ```
 
+\pagebreak
 #### Publicações de livros fora do Brasil
-```{r}
+```{r echo=FALSE}
 mat_public.livros.df %>%
   group_by(pais_de_publicacao) %>%
   summarise(Quantidade = n()) %>%
@@ -978,6 +995,7 @@ mat_public.livros.df %>%
 
 ```
 
+\pagebreak
 #### Eventos por país
 
 ```{r echo=FALSE, out.width='100%'}
@@ -1001,7 +1019,7 @@ A partir dos arquivos graph.json podemos criar modelos de relacionamento entre o
 
 Começamos nossa análise carregando a biblioteca **igraph**:
 
-```{r echo=FALSE}
+```{r error=FALSE, message=FALSE}
 library(igraph)
 ```
 
@@ -1018,19 +1036,19 @@ Começamos carregando o arquivo json para a memória e criando variáveis para r
 
 Podemos observar as primeiras linhas dos nós (ou seja, os pesquisadores em si):
 
-```{r}
+```{r echo=FALSE}
 head(cic_nodes)
 ```
 
 O mesmo pode ser feita para ser observar os relacionamentos (as arestas no grafo):
 
-```{r}
+```{r echo=FALSE}
 head(cic_relations)
 ```
 
 A biblioteca **igraph** facilita bastante o processo de geração das redes a partir dos dados fornecidos.
 
-```{r}
+```{r echo=FALSE}
   graph_cic <- graph_from_data_frame(cic_relations, directed=TRUE, vertices=cic_nodes)
   plot(graph_cic)
 ```
@@ -1040,7 +1058,7 @@ Pode-se observar facilmente que há dois *clusters* distintos de pesquisadores q
 ### Computação
 Fazendo-se a análise anterior para a Pós-Graduação em Computação, obtemos os seguintes resultados:
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
   comp_graph <- jsonlite::fromJSON("comp_graph.json")
   comp_nodes <- comp_graph$nodes
   comp_nodes$properties <- NULL
@@ -1049,16 +1067,16 @@ Fazendo-se a análise anterior para a Pós-Graduação em Computação, obtemos 
 
 Observando-se os primeiros dados dos conjuntos de nós e das arestas:
 
-```{r}
+```{r echo=FALSE}
   head(comp_nodes)
 ```
 
 
-```{r}
+```{r echo=FALSE}
   head(comp_relations)
 ```
 
-```{r}
+```{r echo=FALSE}
   graph_comp <- graph_from_data_frame(comp_relations, directed=TRUE, vertices=comp_nodes)
   plot(graph_comp)
 ```
@@ -1068,7 +1086,7 @@ Na análise para a Pós-Graduação em Computação fica bem claro que há um n�
 ### Matemática
 Por último, a análise de redes será feita para a Pós-Graduação em Matemática.
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
   mat_graph <- jsonlite::fromJSON("mat_graph.json")
   mat_nodes <- mat_graph$nodes
   mat_nodes$properties <- NULL
@@ -1077,15 +1095,15 @@ Por último, a análise de redes será feita para a Pós-Graduação em Matemát
 
 Observando-se os dados:
 
-```{r}
+```{r echo=FALSE}
   head(mat_nodes)
 ```
 
-```{r}
+```{r echo=FALSE}
   head(mat_relations)
 ```
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
   graph_mat <- graph_from_data_frame(mat_relations, directed=TRUE, vertices=mat_nodes)
   plot(graph_mat)
 ```
@@ -1109,7 +1127,7 @@ Fazendo-se a limpeza dos dados dos títulos das publicações para criação da 
 
 Com os dados dos títulos das publicações limpos, é possível prosseguir para a realização da análise usando os pacotes **tm** e **wordcloud**.
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 cic_publication.df$titulo <- iconv(cic_publication.df$titulo,from="UTF-8", to = "ASCII//TRANSLIT")
 df_wc <- data.frame(doc_id = cic_publication.df$issn, text = cic_publication.df$titulo, stringsAsFactors = FALSE )
 docs <- Corpus(DataframeSource(df_wc))
@@ -1146,7 +1164,7 @@ A mesma análise de nuvem de palavras pode ser feita também para o programa de 
 
 E fazendo-se a nuvem de palavras:
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 comp_publication.df$titulo <- iconv(comp_publication.df$titulo,from="UTF-8", to = "ASCII//TRANSLIT")
 df_wc <- data.frame(doc_id = comp_publication.df$issn, text = comp_publication.df$titulo, stringsAsFactors = FALSE )
 docs <- Corpus(DataframeSource(df_wc))
@@ -1184,7 +1202,7 @@ Por último, pode-se realizar a mesma análise para a pós-graduação em matem�
 
 E a nuvem de palavras:
 
-```{r warning = FALSE}
+```{r warning = FALSE, echo=FALSE}
 mat_publication.df$titulo <- iconv(mat_publication.df$titulo,from="UTF-8", to = "ASCII//TRANSLIT")
 df_wc <- data.frame(doc_id = mat_publication.df$issn, text = mat_publication.df$titulo, stringsAsFactors = FALSE )
 docs <- Corpus(DataframeSource(df_wc))
@@ -1212,7 +1230,7 @@ No caso do programa de pós-graduação em Matemática, percebe-se também uma g
 
 No geral percebe-se que existem poucas orientações de Pós Doutorado em relação aos demais tipos. Pode-se supor que isto aconteça devido ao nível de exigência das orientações de Pós Doutorado.
 
-Ao analisar a categoria outras orientações percebe-se que sempre possui uma quantidade elevada de publicações, isso se dá ao fato dela ser composta por trabalhos de conclusão de curso e iniciação científica de estudantes de graduação. Nela também está incluso orientações de outras naturezas que não são especificadas currículo dos orientadores observados/analisados.
+Ao analisar a categoria outras orientações percebe-se que sempre possui uma quantidade elevada de publicações, isso se dá ao fato dela ser composta por trabalhos de conclusão de curso e iniciação científica de estudantes de graduação. Nela também está incluso orientações de outras naturezas que não são especificadas no currículo dos orientadores observados/analisados.
 
 
 ## Perfil
